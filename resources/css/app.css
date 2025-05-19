@@ -184,11 +184,11 @@
 }
 
 .card {
-    @apply max-w-full mx-6 sm:mx-4 rounded-lg shadow-xs bg-white p-5;
+    @apply max-w-full mx-6 sm:mx-4  dark:text-gray-50 rounded-lg shadow-xs bg-white dark:bg-gray-700 p-5;
 }
 
 .card-header {
-    @apply text-xl font-semibold;
+    @apply text-xl font-semibold text-shadow-2xs;
 }
 
 .card-body {

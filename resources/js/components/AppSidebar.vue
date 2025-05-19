@@ -3,29 +3,54 @@ import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/vue3';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-vue-next';
+import { AuthItem, type NavItem } from '@/types';
+import { Link, usePage } from '@inertiajs/vue3';
+import { BookOpen, Folder, LayoutGrid, LucideHome, LucideLogIn, LucideUserPlus2 } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
+const page = usePage();
+
 const mainNavItems: NavItem[] = [
+    {
+        title: 'Home',
+        href: '/',
+        icon: LucideHome,
+        when: !page.props?.auth?.user,
+    },
     {
         title: 'Dashboard',
         href: '/dashboard',
         icon: LayoutGrid,
+        when: page.props?.auth?.user,
     },
 ];
 
+const authNavItems: AuthItem[] = [
+    {
+        title: 'Register',
+        href: route('register'),
+        icon: LucideUserPlus2,
+        when: !page.props?.auth?.user,
+    },
+    {
+        title: 'Login',
+        href: route('login'),
+        icon: LucideLogIn,
+        when: !page.props?.auth?.user,
+    },
+];
 const footerNavItems: NavItem[] = [
     {
         title: 'Forum Discussion Repo',
         href: 'https://github.com/ihabafia/forum-discussion',
         icon: Folder,
+        when: true,
     },
     {
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#vue',
         icon: BookOpen,
+        when: true,
     },
 ];
 </script>
@@ -49,8 +74,8 @@ const footerNavItems: NavItem[] = [
         </SidebarContent>
 
         <SidebarFooter>
-            <NavFooter :items="footerNavItems" />
-            <NavUser />
+            <NavFooter :auths="authNavItems" :items="footerNavItems" />
+            <NavUser v-if="page.props?.auth?.user" />
         </SidebarFooter>
     </Sidebar>
     <slot />

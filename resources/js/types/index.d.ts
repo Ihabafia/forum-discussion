@@ -19,6 +19,14 @@ export interface NavItem {
     when: boolean;
 }
 
+export interface AuthItem {
+    title: string;
+    href: string;
+    icon?: LucideIcon;
+    isActive?: boolean;
+    when: boolean;
+}
+
 export interface SharedData extends PageProps {
     name: string;
     quote: { message: string; author: string };

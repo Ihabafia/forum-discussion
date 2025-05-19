@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 
 import DeleteUser from '@/components/DeleteUser.vue';
@@ -46,37 +46,47 @@ const submit = () => {
 
         <SettingsLayout>
             <div class="flex flex-col space-y-6">
-                <HeadingSmall title="Profile information" description="Update your name and email address" />
+                <HeadingSmall description="Update your name and email address" title="Profile information" />
 
-                <form @submit.prevent="submit" class="space-y-6">
+                <form class="space-y-6" @submit.prevent="submit">
+                    <div class="grid gap-2">
+                        <Label for="name">Username</Label>
+                        <div
+                            id="name"
+                            class="selection:bg-primary selection:text-primary-foreground dark:bg-input py-auto mt-1 block h-9 w-full min-w-0 rounded-md border border-gray-300 bg-gray-200 px-3 py-2 text-base shadow-xs transition-[color,box-shadow] outline-none md:text-sm dark:border-gray-700"
+                        >
+                            {{ user.username }}
+                        </div>
+                    </div>
+
                     <div class="grid gap-2">
                         <Label for="name">Name</Label>
-                        <Input id="name" class="mt-1 block w-full" v-model="form.name" required autocomplete="name" placeholder="Full name" />
-                        <InputError class="mt-2" :message="form.errors.name" />
+                        <Input id="name" v-model="form.name" autocomplete="name" class="mt-1 block w-full" placeholder="Full name" required />
+                        <InputError :message="form.errors.name" class="mt-2" />
                     </div>
 
                     <div class="grid gap-2">
                         <Label for="email">Email address</Label>
                         <Input
                             id="email"
-                            type="email"
-                            class="mt-1 block w-full"
                             v-model="form.email"
-                            required
                             autocomplete="username"
+                            class="mt-1 block w-full"
                             placeholder="Email address"
+                            required
+                            type="email"
                         />
-                        <InputError class="mt-2" :message="form.errors.email" />
+                        <InputError :message="form.errors.email" class="mt-2" />
                     </div>
 
                     <div v-if="mustVerifyEmail && !user.email_verified_at">
-                        <p class="-mt-4 text-sm text-muted-foreground">
+                        <p class="text-muted-foreground -mt-4 text-sm">
                             Your email address is unverified.
                             <Link
                                 :href="route('verification.send')"
-                                method="post"
                                 as="button"
                                 class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+                                method="post"
                             >
                                 Click here to resend the verification email.
                             </Link>

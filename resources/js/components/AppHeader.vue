@@ -71,7 +71,7 @@ const rightNavItems: NavItem[] = [
 
 <template>
     <div>
-        <div class="border-sidebar-border/90 mb-6 border-b bg-gray-50 dark:bg-gray-900">
+        <div class="border-sidebar-border/90 mb-6 border-b bg-gray-50 dark:bg-gray-950">
             <div class="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
                 <!-- Mobile Menu -->
                 <div class="lg:hidden">
@@ -171,13 +171,39 @@ const rightNavItems: NavItem[] = [
                                 </TooltipProvider>
                             </template>
                         </div>
-                        <div class="flex flex-row gap-2">
-                            <Link v-if="!$page.props.auth.user" :href="route('login')" class="rounded-md p-1 hover:bg-gray-100">
-                                <LucideLogIn />
-                            </Link>
-                            <Link v-if="!$page.props.auth.user" :href="route('register')" class="rounded-md p-1 hover:bg-gray-100">
-                                <UserPlus />
-                            </Link>
+                        <div v-if="!$page.props.auth.user" class="space-x-1 lg:flex">
+                            <TooltipProvider :delay-duration="0">
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <Button as-child class="group h-9 w-9 cursor-pointer" size="icon" variant="ghost">
+                                            <Link :href="route('login')" rel="noopener noreferrer">
+                                                <span class="sr-only">Login</span>
+                                                <component :is="LucideLogIn" class="size-5 opacity-80 group-hover:opacity-100" />
+                                            </Link>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Login</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </div>
+                        <div v-if="!$page.props.auth.user" class="space-x-1 lg:flex">
+                            <TooltipProvider :delay-duration="0">
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <Button as-child class="group h-9 w-9 cursor-pointer" size="icon" variant="ghost">
+                                            <Link :href="route('register')" rel="noopener noreferrer">
+                                                <span class="sr-only">Login</span>
+                                                <component :is="UserPlus" class="size-5 opacity-80 group-hover:opacity-100" />
+                                            </Link>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Register</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </div>
                     </div>
 
