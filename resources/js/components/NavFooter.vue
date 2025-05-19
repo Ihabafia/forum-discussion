@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 
@@ -15,8 +15,12 @@ defineProps<Props>();
         <SidebarGroupContent>
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">
-                    <SidebarMenuButton class="text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100" as-child>
-                        <a :href="item.href" target="_blank" rel="noopener noreferrer">
+                    <SidebarMenuButton as-child class="text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100">
+                        <a v-if="!$page.user && item.title == 'Login'" :href="item.href" rel="noopener noreferrer" target="_blank">
+                            <component :is="item.icon" />
+                            <span>{{ item.title }}</span>
+                        </a>
+                        <a v-else :href="item.href" rel="noopener noreferrer" target="_blank">
                             <component :is="item.icon" />
                             <span>{{ item.title }}</span>
                         </a>
