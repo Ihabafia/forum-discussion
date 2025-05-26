@@ -13,7 +13,7 @@ defineProps<Props>();
 </script>
 
 <template>
-    <img alt="Logo" class="siz-16 max-w-32 dark:block" src="/imgs/full-logo.svg" />
+    <img alt="Logo" class="size-20 max-w-36 sm:size-24 dark:block" src="/imgs/full-logo.svg" />
     <!--    <svg :class="className" v-bind="$attrs" viewBox="0 0 40 42" xmlns="http://www.w3.org/2000/svg">
             <path
                 clip-rule="evenodd"

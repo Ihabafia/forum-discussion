@@ -71,13 +71,13 @@ const rightNavItems: NavItem[] = [
 
 <template>
     <div>
-        <div class="border-sidebar-border/90 mb-6 border-b bg-gray-50 dark:bg-gray-950">
-            <div class="mx-auto flex h-16 items-center px-4 md:max-w-7xl">
+        <div class="border-sidebar-border/90 border-b bg-gray-50 dark:bg-gray-900">
+            <div class="mx-auto mt-2 flex h-16 items-center px-4 md:max-w-7xl">
                 <!-- Mobile Menu -->
                 <div class="lg:hidden">
                     <Sheet>
                         <SheetTrigger :as-child="true">
-                            <Button class="mr-2 h-9 w-9" size="icon" variant="ghost">
+                            <Button class="mr-0 -ml-2 h-9 w-9" size="icon" variant="ghost">
                                 <Menu class="h-5 w-5" />
                             </Button>
                         </SheetTrigger>
@@ -124,13 +124,17 @@ const rightNavItems: NavItem[] = [
 
                 <!-- Desktop Menu -->
                 <div class="hidden h-full lg:flex lg:flex-1">
-                    <NavigationMenu class="ml-10 flex h-full items-stretch">
+                    <NavigationMenu class="ml-10 flex h-full items-start">
                         <NavigationMenuList class="flex h-full items-stretch space-x-2">
                             <div v-for="(item, index) in mainNavItems" :key="index">
                                 <NavigationMenuItem v-if="item.when" class="relative flex h-full items-center">
                                     <Link :href="item.href">
                                         <NavigationMenuLink
-                                            :class="[navigationMenuTriggerStyle(), activeItemStyles(item.href), 'h-9 cursor-pointer px-3']"
+                                            :class="[
+                                                navigationMenuTriggerStyle(),
+                                                activeItemStyles(item.href),
+                                                'h-9 cursor-pointer bg-gray-50 px-3 dark:bg-gray-900 dark:hover:bg-gray-700',
+                                            ]"
                                         >
                                             <component :is="item.icon" v-if="item.icon" class="mr-2 h-4 w-4" />
                                             {{ item.title }}

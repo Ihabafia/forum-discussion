@@ -2,6 +2,8 @@
 
 @import "tw-animate-css";
 
+@plugin "@tailwindcss/typography";
+
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
@@ -184,13 +186,21 @@
 }
 
 .card {
-    @apply max-w-full mx-6 sm:mx-4  dark:text-gray-50 rounded-lg shadow-xs bg-white dark:bg-gray-700 p-5;
+    @apply max-w-full overflow-hidden dark:text-gray-50 sm:rounded-lg shadow-xs bg-gray-100 dark:bg-gray-800 px-8 py-6;
 }
 
 .card-header {
     @apply text-xl font-semibold text-shadow-2xs;
 }
 
+.card-title {
+    @apply text-base font-semibold mb-4;
+}
+
 .card-body {
-    @apply text-base mt-2;
+    @apply text-base mt-2 text-gray-900 dark:text-gray-50;
+}
+
+.markdown p {
+    @apply text-base mb-2;
 }

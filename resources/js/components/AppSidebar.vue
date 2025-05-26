@@ -15,7 +15,7 @@ const mainNavItems: NavItem[] = [
         title: 'Home',
         href: '/',
         icon: LucideHome,
-        when: !page.props?.auth?.user,
+        when: true,
     },
     {
         title: 'Dashboard',
