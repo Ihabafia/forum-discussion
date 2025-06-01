@@ -18,22 +18,23 @@ class ForumIndexController extends Controller
 {
     public function __invoke(Request $request)
     {
-        ray()->newScreen()->showQueries();
-        $query = QueryBuilder::for(Discussion::class)
-            ->allowedFilters($this->allowedFilters())
-            ->with(['topic', 'post', 'latestPost.user', 'participants'])
-            ->withCount('replies')
-            ->orderByPinned()
-            ->orderByLastPost()
-            // ->latest() // Remove when implemented by last post
-            ->paginate(config('forum.pagination.per_page'))
-            ->withQueryString();
-        ray()->stopShowingQueries();
-
         return inertia()->render('Forum/Index', [
             'query' => (object) $request->query(),
             'discussions' => fn () => DiscussionResource::collection(
-                $query
+                QueryBuilder::for(Discussion::class)
+                    ->allowedFilters($this->allowedFilters())
+                    ->with(['topic', 'post', 'latestPost.user', 'participants'])
+                    ->withCount('replies')
+                    ->orderByPinned()
+                    ->orderByLastPost()
+                    ->tap(function ($builder) use ($request) {
+                        if (filled($request->search)) {
+                            return $builder->whereIn('id', Discussion::search($request->search)->get()->pluck('id'));
+                        }
+                    })
+                    // ->latest() // Remove when implemented by last post
+                    ->paginate(config('forum.pagination.per_page'))
+                    ->withQueryString()
             ),
         ]);
     }

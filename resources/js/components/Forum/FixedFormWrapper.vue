@@ -53,7 +53,7 @@ watch(
                     :class="{
                         'opacity-20': markdownPreviewLoading,
                     }"
-                    class="h-48 overflow-y-scroll rounded-lg border border-gray-200 bg-purple-50 px-3 py-2 shadow"
+                    class="prose prose-sm dark:prose-invert h-48 max-w-none overflow-y-scroll rounded-lg border border-gray-200 bg-purple-50 px-3 py-2 shadow"
                     v-html="markdownPreviewHtml"
                 />
                 <div class="flex items-center justify-between">

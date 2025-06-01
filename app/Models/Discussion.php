@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Laravel\Scout\Searchable;
 use Str;
 
 class Discussion extends Model
 {
     use HasFactory;
+    use Searchable;
 
     protected $fillable = [
         'title',
@@ -24,6 +26,11 @@ class Discussion extends Model
         static::created(function (self $discussion) {
             $discussion->update(['slug' => $discussion->title]);
         });
+    }
+
+    public function toSearchableArray(): array
+    {
+        return $this->only('id', 'title');
     }
 
     public function setSlugAttribute($value): string

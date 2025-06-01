@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import Svg from '@/components/Svg.vue';
-import 'remixicon/fonts/remixicon.css';
 </script>
 
 <template>

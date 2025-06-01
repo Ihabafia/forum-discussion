@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import useCreateDiscussion from '@/composables/useCreateDiscussion';
 import { X } from 'lucide-vue-next';
+import { Mentionable } from 'vue-mention';
 
 const { visible, hideCreateDiscussionForm, form, clearForm, createDiscussionRef } = useCreateDiscussion();
 
@@ -66,7 +67,7 @@ const createDiscussion = () => {
                                 'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
                             )*/"
                         :tabindex="2"
-                        class="flex h-9 w-48 min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs focus:bg-white"
+                        class="flex h-9 w-48 min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs focus:bg-white dark:bg-gray-800"
                     >
                         <option value="">Choose a topic...</option>
                         <option v-for="topic in $page.props.topics" :key="topic.id" :selected="form.topic_id === topic.id" :value="topic.id">
@@ -78,17 +79,19 @@ const createDiscussion = () => {
             </div>
             <div>
                 <Label class="sr-only" for="body">Body</Label>
-                <textarea
-                    v-if="!markdownPreviewEnabled"
-                    id="body"
-                    v-model="form.body"
-                    :class="{
-                        'ring-2 ring-red-500': form.errors.body,
-                    }"
-                    class="dark:gray-50 dark:gray-50 block h-48 w-full rounded-lg bg-white p-3 py-1.5 text-gray-900 shadow-sm ring-2 ring-gray-200 ring-inset placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-gray-300 focus:outline-none focus:ring-inset sm:text-sm sm:leading-6 dark:bg-gray-800 dark:text-gray-50 dark:ring-gray-600 dark:focus:ring-gray-600"
-                    placeholder="What would you like to discuss?"
-                    tabindex="3"
-                ></textarea>
+                <Mentionable>
+                    <textarea
+                        v-if="!markdownPreviewEnabled"
+                        id="body"
+                        v-model="form.body"
+                        :class="{
+                            'ring-2 ring-red-500': form.errors.body,
+                        }"
+                        class="dark:gray-50 dark:gray-50 block h-48 w-full rounded-lg bg-white p-3 py-1.5 text-gray-900 shadow-sm ring-2 ring-gray-200 ring-inset placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-gray-300 focus:outline-none focus:ring-inset sm:text-sm sm:leading-6 dark:bg-gray-800 dark:text-gray-50 dark:ring-gray-600 dark:focus:ring-gray-600"
+                        placeholder="What would you like to discuss?"
+                        tabindex="3"
+                    ></textarea>
+                </Mentionable>
                 <InputError :message="form.errors.body" />
             </div>
         </template>

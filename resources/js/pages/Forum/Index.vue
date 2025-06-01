@@ -3,6 +3,7 @@ import Discussion from '@/components/Forum/Discussion.vue';
 import Navigation from '@/components/Forum/Navigation.vue';
 import Pagination from '@/components/Pagination.vue';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Select from '@/components/ui/select/Select.vue';
 import useCreateDiscussion from '@/composables/useCreateDiscussion';
@@ -10,25 +11,24 @@ import ForumLayout from '@/layouts/Forum/ForumLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Discussions } from '@/types/discussion';
 import { Head, router, useForm } from '@inertiajs/vue3';
+import _debounce from 'lodash.debounce';
 import _isEmpty from 'lodash.isempty';
 import _omitBy from 'lodash.omitby';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 // const props = defineProps(['discussions', 'query']);
 const props = defineProps<{
     discussions: Discussions;
     query: object;
 }>();
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Home',
-        href: '/',
-    },
-];
+
+const searchQuery = ref(props.query.search || '');
+const { showCreateDiscussionForm } = useCreateDiscussion();
 
 const form = useForm({
     topic: '',
 });
+
 const showPagination = computed(() => {
     return props.discussions?.meta?.total > props.discussions?.meta?.per_page;
 });
@@ -44,7 +44,23 @@ const filterTopic = (e: object) => {
     });
 };
 
-const { showCreateDiscussionForm } = useCreateDiscussion();
+const handleSearchInput = _debounce((query: string) => {
+    router.reload({
+        data: { search: query },
+        preserveScroll: true,
+    });
+}, 350);
+
+watch(searchQuery, (query) => {
+    handleSearchInput(query);
+});
+
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Home',
+        href: '/',
+    },
+];
 </script>
 
 <template>
@@ -63,11 +79,14 @@ const { showCreateDiscussionForm } = useCreateDiscussion();
         </template>
         <div class="space-y-4">
             <div class="space-y-6">
-                <div class="card">
+                <div class="card flex flex-row items-center space-x-3">
+                    <div class="card-body flex-grow">
+                        <Label class="sr-only" for="search">Search</Label>
+                        <Input id="search" v-model="searchQuery" class="border2 border-gray-400" placeholder="Search discussions..." type="text" />
+                    </div>
                     <div class="card-body">
-                        {{ form.topic || 'No' }}
-                        <Label class="sr-only mb-2" for="topic">Topic</Label>
-                        <Select id="topic" v-model="form.topic" @change="filterTopic">
+                        <Label class="sr-only" for="topic">Topic</Label>
+                        <Select id="topic" v-model="form.topic" class="border-2 border-gray-300" @change="filterTopic">
                             <option value="">All Topics</option>
                             <option
                                 v-for="topic in $page.props.topics"

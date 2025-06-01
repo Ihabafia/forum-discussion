@@ -76,7 +76,7 @@ const deletePost = () => {
                 </div>
             </form>
             <div v-else>
-                <article class="markdown mt-3" v-html="post.body_markdown" />
+                <article class="markdown prose prose-sm dark:prose-invert mt-3 max-w-none" v-html="post.body_markdown" />
                 <div class="mt-6 flex items-center justify-between">
                     <ul class="flex items-center">
                         <li v-if="post.discussion.user_can.reply">
