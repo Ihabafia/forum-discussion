@@ -2,7 +2,8 @@ import { nextTick, ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 
 const visible = ref(false);
-const discussion = ref({});
+const discussion = ref(null);
+const user = ref(null);
 const createPostRef = ref(null);
 
 const form = useForm({
@@ -14,12 +15,13 @@ export default () => {
     const toggleCreatePostForm = () => {
         visible.value = !visible.value;
     };
-    const showCreatePostForm = (discussionObject) => {
+    const showCreatePostForm = (discussionContext, userContext = null) => {
         visible.value = true;
         nextTick(() => {
             createPostRef.value?.focus();
         });
-        discussion.value = discussionObject;
+        discussion.value = discussionContext;
+        user.value = userContext;
     };
     const hideCreatePostForm = () => {
         visible.value = false;
@@ -38,5 +40,6 @@ export default () => {
         hideCreatePostForm,
         discussion,
         createPostRef,
+        user,
     };
 };

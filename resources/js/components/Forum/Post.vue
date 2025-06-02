@@ -6,9 +6,11 @@ import { Button } from '@/components/ui/button';
 import TextArea from '@/components/ui/input/TextArea.vue';
 import { Label } from '@/components/ui/label';
 import useCreatePost from '@/composables/useCreatePost';
+import useMentionSearch from '@/composables/useMentionSearch';
 import { PostObject } from '@/types/discussion';
 import { router, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import { Mentionable } from 'vue-mention';
 
 const props = defineProps<{
     post: PostObject;
@@ -16,6 +18,7 @@ const props = defineProps<{
 }>();
 
 const { showCreatePostForm } = useCreatePost();
+const { mentionSearch, mentionSearchResult } = useMentionSearch();
 const editing = ref(false);
 
 const editForm = useForm({
@@ -68,7 +71,12 @@ const deletePost = () => {
             </div>
             <form v-if="editing" class="mt-4" @submit.prevent="updatePost">
                 <Label class="sr-only" for="body">Body</Label>
-                <TextArea id="body" v-model="editForm.body" class="h-48 w-full" />
+                <Mentionable :items="mentionSearchResult" :keys="['@']" offset="6" v-on:search="mentionSearch">
+                    <TextArea id="body" v-model="editForm.body" class="h-48 w-full" />
+                    <template #no-result>
+                        <div class="mention-item">No username found</div>
+                    </template>
+                </Mentionable>
                 <InputError :message="editForm.errors.body" />
                 <div class="mt-3">
                     <Button class="text-md" size="sm" type="submit" variant="primary">Update</Button>
@@ -80,7 +88,10 @@ const deletePost = () => {
                 <div class="mt-6 flex items-center justify-between">
                     <ul class="flex items-center">
                         <li v-if="post.discussion.user_can.reply">
-                            <Button class="cursor-pointer pl-0 text-sm text-purple-500" variant="link" @click="showCreatePostForm(post.discussion)"
+                            <Button
+                                class="cursor-pointer pl-0 text-sm text-purple-500"
+                                variant="link"
+                                @click="showCreatePostForm(post.discussion, post.user)"
                                 >Reply
                             </Button>
                         </li>

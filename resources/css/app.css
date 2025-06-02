@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 
 @import "tw-animate-css";
+@import 'floating-vue/dist/style.css';
 
 @plugin "@tailwindcss/typography";
 
@@ -201,6 +202,25 @@
     @apply text-base mt-2 text-gray-900 dark:text-gray-50;
 }
 
-.markdown p {
+/*.markdown p {
     @apply text-base mb-2;
+}*/
+.shiki {
+    @apply p-6 rounded-lg my-4 text-sm;
+}
+
+.mention {
+    @apply border-gray-800
+}
+
+.mention-item {
+    @apply p-3 leading-none cursor-pointer dark:bg-gray-800 dark:text-gray-50;
+}
+
+.mention-selected {
+    @apply bg-gray-200 dark:bg-gray-700 cursor-pointer;
+}
+
+label {
+    @apply flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50;
 }

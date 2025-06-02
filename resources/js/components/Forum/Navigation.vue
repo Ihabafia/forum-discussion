@@ -80,6 +80,17 @@ defineProps({
                         Participating Discussions
                     </li>
                 </Link>
+                <Link href="/?filter[mentioned]=1">
+                    <li
+                        :class="{
+                            'w-full rounded-lg bg-purple-200 px-3 font-bold text-purple-700 dark:bg-purple-900 dark:text-purple-300':
+                                query?.filter?.mentioned,
+                        }"
+                        class="py-1 pl-3"
+                    >
+                        Mentioned
+                    </li>
+                </Link>
             </ul>
         </nav>
     </div>

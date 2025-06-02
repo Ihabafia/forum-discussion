@@ -5,11 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import useCreateDiscussion from '@/composables/useCreateDiscussion';
+import useMentionSearch from '@/composables/useMentionSearch';
 import { X } from 'lucide-vue-next';
 import { Mentionable } from 'vue-mention';
 
 const { visible, hideCreateDiscussionForm, form, clearForm, createDiscussionRef } = useCreateDiscussion();
-
+const { mentionSearch, mentionSearchResult } = useMentionSearch();
 const createDiscussion = () => {
     form.post(route('discussions.store'), {
         onSuccess: () => {
@@ -79,7 +80,7 @@ const createDiscussion = () => {
             </div>
             <div>
                 <Label class="sr-only" for="body">Body</Label>
-                <Mentionable>
+                <Mentionable :items="mentionSearchResult" :keys="['@']" offset="6" v-on:search="mentionSearch">
                     <textarea
                         v-if="!markdownPreviewEnabled"
                         id="body"
@@ -90,7 +91,10 @@ const createDiscussion = () => {
                         class="dark:gray-50 dark:gray-50 block h-48 w-full rounded-lg bg-white p-3 py-1.5 text-gray-900 shadow-sm ring-2 ring-gray-200 ring-inset placeholder:text-gray-400 focus:bg-white focus:ring-2 focus:ring-gray-300 focus:outline-none focus:ring-inset sm:text-sm sm:leading-6 dark:bg-gray-800 dark:text-gray-50 dark:ring-gray-600 dark:focus:ring-gray-600"
                         placeholder="What would you like to discuss?"
                         tabindex="3"
-                    ></textarea>
+                    />
+                    <template #no-result>
+                        <div class="mention-item">No username found</div>
+                    </template>
                 </Mentionable>
                 <InputError :message="form.errors.body" />
             </div>

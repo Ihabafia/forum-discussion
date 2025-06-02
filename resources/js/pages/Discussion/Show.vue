@@ -10,7 +10,7 @@ import { DiscussionObject } from '@/types/discussion';
 import { Head, router } from '@inertiajs/vue3';
 import { Pin } from 'lucide-vue-next';
 import pluralize from 'pluralize';
-import { computed, nextTick, onMounted, onUpdated } from 'vue';
+import { computed, nextTick, onMounted, watch } from 'vue';
 import VueScrollTo from 'vue-scrollto';
 
 const props = defineProps<{
@@ -38,9 +38,15 @@ const scrollToPost = (postId: number | undefined) => {
 onMounted(() => {
     scrollToPost(props.postId);
 });
-onUpdated(() => {
+/*onUpdated(() => {
     scrollToPost(props.postId);
-});
+});*/
+watch(
+    () => props.postId,
+    (postId) => {
+        scrollToPost(postId);
+    },
+);
 
 const deleteDiscussion = () => {
     if (!window.confirm('Are you sure you want to delete this discussion?')) {

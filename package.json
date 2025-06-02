@@ -39,6 +39,7 @@
         "lodash.isempty": "^4.4.0",
         "lodash.omitby": "^4.6.0",
         "lucide-vue-next": "^0.468.0",
+        "meilisearch": "^0.50.0",
         "pluralize": "^8.0.0",
         "reka-ui": "^2.2.0",
         "remixicon": "^4.6.0",
