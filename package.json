@@ -13,6 +13,7 @@
         "@eslint/js": "^9.19.0",
         "@types/node": "^22.13.5",
         "@vue/eslint-config-typescript": "^14.3.0",
+        "daisyui": "^5.0.43",
         "eslint": "^9.17.0",
         "eslint-config-prettier": "^10.0.1",
         "eslint-plugin-vue": "^9.32.0",
@@ -24,6 +25,7 @@
     },
     "dependencies": {
         "@github/markdown-toolbar-element": "^2.2.3",
+        "@inertiajs/react": "^2.0.11",
         "@inertiajs/vue3": "^2.0.0",
         "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/typography": "^0.5.16",
